@@ -48,8 +48,21 @@
       if(window.SwaggerTranslator) {
         window.SwaggerTranslator.translate();
       }
+
+      var interceptor = {
+        requestInterceptor: {
+          apply: function (request) {
+            request.headers['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
+            request.headers['Cache-Control'] = 'no-cache';
+            request.headers['Pragma'] = 'no-cache';
+            return request;
+          }
+        }
+      };
+
       window.swaggerUi = new SwaggerUi({
         url: url,
+        requestInterceptor: interceptor.requestInterceptor,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
